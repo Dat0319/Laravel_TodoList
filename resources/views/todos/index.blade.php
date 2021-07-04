@@ -19,6 +19,11 @@
                             <li class="list-group-item">
                                 {{ $todo->name }}
 
+                                @if (!$todo->completed)
+                                    <a href="/todos/{{ $todo->id }}/complete" style="color: white;"
+                                        class="btn btn-warning btn-sm float-right">Complete</a>
+                                @endif
+
                                 <a href="/todos/{{ $todo->id }}/delete"
                                     class="btn btn-danger btn-sm float-right mr-2">Delete</a>
 

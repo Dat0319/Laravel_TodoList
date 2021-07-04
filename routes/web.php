@@ -26,3 +26,9 @@ Route::post('/store-todos', 'TodosController@store');
 Route::get('/todos/{todo}/edit', 'TodosController@edit');
 Route::post('/todos/{todo}/update-todos', 'TodosController@update');
 Route::get('todos/{todo}/delete', 'TodosController@destroy');
+Route::get('todos/{todo}/complete', 'TodosController@complete');
+
+
+// Route::get('/blog/{slug}', function(Post $post){
+//     return view('post.detail')->with('post', $post)
+//  });

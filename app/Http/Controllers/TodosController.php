@@ -50,39 +50,23 @@ class TodosController extends Controller
 
         $todo->save();
 
+        session()->flash('success', 'Todo created successfully.');
+
         return redirect('/todos');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($todoId)
+    // Route Model Binding
+    public function show(Todo $todo)
     {
-        return view('todos.show')->with('todo', Todo::find($todoId));
+        return view('todos.show')->with('todo', $todo);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($todoId)
+    public function edit(Todo $todo)
     {
-        return view('todos.edit')->with('todo', Todo::find($todoId));
+        return view('todos.edit')->with('todo', $todo);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update($todoId)
+    public function update(Todo $todo)
     {
         $this->validate(request(), [
             'name' => 'required|min:6|max:12',
@@ -91,24 +75,100 @@ class TodosController extends Controller
 
         $data = request()->all();
 
-        $todo = Todo::find($todoId);
         $todo->name = $data['name'];
         $todo->description = $data['description'];
 
         $todo->save();
+        session()->flash('success', 'Todo updated successfully.');
+
+        return redirect('/todos');
+    }
+
+    public function destroy(Todo $todo)
+    {
+        $todo->delete();
+        session()->flash('success', 'Todo deleted successfully.');
+        return redirect('/todos');
+    }
+
+    public function complete(Todo $todo)
+    {
+        $todo->completed = true;
+        $todo->save();
+
+        session()->flash('success', 'Todo completed successfully.');
+
         return redirect('/todos');
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Get the route key for the model.
      *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * @return string
      */
-    public function destroy($todoId)
+    public function getRouteKeyName()
     {
-        $todo = Todo::find($todoId);
-        $todo->delete();
-        return redirect('/todos');
+        return 'slug';
     }
+
+    // End Route model Binding
+
+    // /**
+    //  * Display the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function show($todoId)
+    // {
+    //     return view('todos.show')->with('todo', Todo::find($todoId));
+    // }
+
+    // /**
+    //  * Show the form for editing the specified resource.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function edit($todoId)
+    // {
+    //     return view('todos.edit')->with('todo', Todo::find($todoId));
+    // }
+
+    // /**
+    //  * Update the specified resource in storage.
+    //  *
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function update($todoId)
+    // {
+    //     $this->validate(request(), [
+    //         'name' => 'required|min:6|max:12',
+    //         'description' => 'required'
+    //     ]);
+
+    //     $data = request()->all();
+
+    //     $todo = Todo::find($todoId);
+    //     $todo->name = $data['name'];
+    //     $todo->description = $data['description'];
+
+    //     $todo->save();
+    //     return redirect('/todos');
+    // }
+
+    // /**
+    //  * Remove the specified resource from storage.
+    //  *
+    //  * @param  int  $id
+    //  * @return \Illuminate\Http\Response
+    //  */
+    // public function destroy($todoId)
+    // {
+    //     $todo = Todo::find($todoId);
+    //     $todo->delete();
+    //     return redirect('/todos');
+    // }
 }
