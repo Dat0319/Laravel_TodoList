@@ -106,6 +106,7 @@ return [
     |
     */
 
+    // 'faker_locale' => 'vi_VN', // config for your all app
     'faker_locale' => 'en_US',
 
     /*
