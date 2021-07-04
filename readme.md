@@ -1,6 +1,7 @@
 # Laravel_TodoList
 ## Create database todos_app
 ```
+cp .env.example .env
 php artisan migrate
 php artisan db:seed
 ```
